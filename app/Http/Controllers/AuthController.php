@@ -27,4 +27,33 @@ class AuthController extends Controller
             'message' => 'Register berhasil, silahkan verifikasi email anda',
         ], 201);
     }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'message' => 'Email atau Password salah',
+            ], 401);
+        }
+
+        $user = Auth::user();
+
+        if (!$user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email belum diverifikasi',
+            ], 403);
+        }
+
+        $token = $user->createToken('keukie')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login Berhasil',
+            'token' => $token,
+        ], 200);
+    }
 }

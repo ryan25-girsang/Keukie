@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('jenis',['pemasukan','pengeluaran']);
-            $table->decimal('nominal',15,2);
-            $table->enum('metode',['tunai','digital']);
+            $table->enum('jenis', ['pemasukan', 'pengeluaran']);
+            $table->decimal('nominal', 15, 2);
+            $table->enum('metode', ['tunai', 'digital']);
             $table->date('tanggal');
             $table->text('catatan')->nullable();
             $table->timestamps();

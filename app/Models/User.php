@@ -49,7 +49,8 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function transaksi(){
+    public function transaksi()
+    {
         return $this->hasMany(Transaksi::class);
     }
 }
