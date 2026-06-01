@@ -45,7 +45,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
+        $user = User::findOrFail(Auth::id());
 
         if (!$user->hasVerifiedEmail()) {
             return response()->json([
@@ -70,7 +70,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function verifyEmail(Request $request, $id, $hash)
+    public function verifyEmail(Request $request,int $id,string $hash)
     {
         $user = User::findOrFail($id);
 
