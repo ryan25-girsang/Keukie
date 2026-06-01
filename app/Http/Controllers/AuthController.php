@@ -70,7 +70,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function verifyEmail(Request $request,int $id,string $hash)
+    public function verifyEmail(Request $request, int $id, string $hash)
     {
         $user = User::findOrFail($id);
 

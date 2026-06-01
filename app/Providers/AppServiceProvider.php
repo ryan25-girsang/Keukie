@@ -21,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        VerifyEmail::createUrlUsing(function($notifiable){
-            return url("/api/email/verify/{$notifiable->getKey()}/".sha1($notifiable->getEmailForVerification()));
+        VerifyEmail::createUrlUsing(function ($notifiable) {
+            return url("/api/email/verify/{$notifiable->getKey()}/" . sha1($notifiable->getEmailForVerification()));
         });
     }
 }
