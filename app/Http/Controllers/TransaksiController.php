@@ -34,4 +34,8 @@ class TransaksiController extends Controller
         $transaksi=$request->user()->transaksi()->orderBy('tanggal','desc')->get();
         return response()->json($transaksi,200);
     }
+
+    public function show(Request $request,int $id){
+        
+    }
 }
