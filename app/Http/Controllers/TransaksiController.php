@@ -15,5 +15,18 @@ class TransaksiController extends Controller
             'tanggal' => 'required|date',
             'catatan' => 'nullable|string|max:100',
         ]);
+
+        $transaksi=$request->user()->transaksi()->create([
+            'jenis'=>$request->jenis,
+            'nominal'=>$request->nominal,
+            'metode'=>$request->metode,
+            'tanggal'=>$request->tanggal,
+            'catatan'=>$request->catatan,
+        ]);
+
+        return response()->json([
+            'message'=>'Transaksi berhasil ditambahkan',
+            'transaksi'=>$transaksi,
+        ],201);
     }
 }
