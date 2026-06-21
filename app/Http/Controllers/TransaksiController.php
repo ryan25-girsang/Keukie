@@ -33,8 +33,31 @@ class TransaksiController extends Controller
 
     public function index(Request $request)
     {
-        $transaksi = $request->user()->transaksi()->orderBy('tanggal', 'desc')->get();
-        return response()->json($transaksi, 200);
+        $query=$request->user()->transaksi()->orderBy('tanggal','desc');
+
+        if($request->filled('jenis')){
+            $query->where('jenis',$request->jenis);
+        }
+
+        if($request->filled('metode')){
+            $query->where('metode',$request->metode);
+        }
+
+        if($request->filled('dari')){
+            $query->where('tanggal','>=',$request->dari);
+        }
+
+        if($request->filled('sampai')){
+            $query->where('tanggal','<=',$request->sampai);
+        }
+
+        if($request->filled('cari')){
+            $query->where('catatan','like','%',$request->cari.'%');
+        }
+
+        $transaksi=$query->get();
+
+        return response()->json($transaksi,200);
     }
 
     public function show(Request $request, int $id)
