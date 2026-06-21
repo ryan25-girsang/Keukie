@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -20,9 +21,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/email/resend', [AuthController::class, 'resendVerification']);
 
-    Route::get('/transaksi',[TransaksiController::class,'index']);
-    Route::post('/transaksi',[TransaksiController::class,'store']);
-    Route::get('/transaksi/{id}',[TransaksiController::class,'show']);
-    Route::put('/transaksi/{id}',[TransaksiController::class,'update']);
-    Route::delete('/transaksi/{id}',[TransaksiController::class,'destroy']);
+    Route::get('/transaksi', [TransaksiController::class, 'index']);
+    Route::post('/transaksi', [TransaksiController::class, 'store']);
+    Route::get('/transaksi/{id}', [TransaksiController::class, 'show']);
+    Route::put('/transaksi/{id}', [TransaksiController::class, 'update']);
+    Route::delete('/transaksi/{id}', [TransaksiController::class, 'destroy']);
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 });
