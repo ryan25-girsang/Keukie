@@ -36,6 +36,14 @@ class TransaksiController extends Controller
     }
 
     public function show(Request $request,int $id){
-        
+        $transaksi=$request->user()->transaksi()->find($id);
+
+        if(!$transaksi){
+            return response()->json([
+                'message'=>'Transaksi tidak ditemukan',
+            ],404);
+        }
+
+        return response()->json($transaksi,200);
     }
 }
