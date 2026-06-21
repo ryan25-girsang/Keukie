@@ -17,59 +17,79 @@ class TransaksiController extends Controller
             'catatan' => 'nullable|string|max:100',
         ]);
 
-        $transaksi=$request->user()->transaksi()->create([
-            'jenis'=>$request->jenis,
-            'nominal'=>$request->nominal,
-            'metode'=>$request->metode,
-            'tanggal'=>$request->tanggal,
-            'catatan'=>$request->catatan,
+        $transaksi = $request->user()->transaksi()->create([
+            'jenis' => $request->jenis,
+            'nominal' => $request->nominal,
+            'metode' => $request->metode,
+            'tanggal' => $request->tanggal,
+            'catatan' => $request->catatan,
         ]);
 
         return response()->json([
-            'message'=>'Transaksi berhasil ditambahkan',
-            'transaksi'=>$transaksi,
-        ],201);
+            'message' => 'Transaksi berhasil ditambahkan',
+            'transaksi' => $transaksi,
+        ], 201);
     }
 
-    public function index(Request $request){
-        $transaksi=$request->user()->transaksi()->orderBy('tanggal','desc')->get();
-        return response()->json($transaksi,200);
+    public function index(Request $request)
+    {
+        $transaksi = $request->user()->transaksi()->orderBy('tanggal', 'desc')->get();
+        return response()->json($transaksi, 200);
     }
 
-    public function show(Request $request,int $id){
-        $transaksi=$request->user()->transaksi()->find($id);
+    public function show(Request $request, int $id)
+    {
+        $transaksi = $request->user()->transaksi()->find($id);
 
-        if(!$transaksi){
+        if (!$transaksi) {
             return response()->json([
-                'message'=>'Transaksi tidak ditemukan',
-            ],404);
+                'message' => 'Transaksi tidak ditemukan',
+            ], 404);
         }
 
-        return response()->json($transaksi,200);
+        return response()->json($transaksi, 200);
     }
 
-    public function update(Request $request, int $id){
-        $transaksi=$request->user()->transaksi()->find($id);
+    public function update(Request $request, int $id)
+    {
+        $transaksi = $request->user()->transaksi()->find($id);
 
-        if(!$transaksi){
+        if (!$transaksi) {
             return response()->json([
-                'message'=> 'Transakasi tidak ditemukan',
-            ],404);
+                'message' => 'Transakasi tidak ditemukan',
+            ], 404);
         }
 
         $request->validate([
-            'jenis'=>'sometimes|in:pemasukan,pengeluaran',
-            'nominal'=>'sometimes|numeric|min:1',
-            'metode'=>'sometimes|in:tunai,digital',
-            'tanggal'=>'sometimes|date',
-            'catatan'=>'nullable|string|max:100',
+            'jenis' => 'sometimes|in:pemasukan,pengeluaran',
+            'nominal' => 'sometimes|numeric|min:1',
+            'metode' => 'sometimes|in:tunai,digital',
+            'tanggal' => 'sometimes|date',
+            'catatan' => 'nullable|string|max:100',
         ]);
 
-        $transaksi->update($request->only(['jenis','nominal','metode','tanggal','catatan']));
+        $transaksi->update($request->only(['jenis', 'nominal', 'metode', 'tanggal', 'catatan']));
 
         return response()->json([
-            'message'=>'Transaksi berhasil diperbarui',
-            'transaksi'=>$transaksi,
-        ],200);
+            'message' => 'Transaksi berhasil diperbarui',
+            'transaksi' => $transaksi,
+        ], 200);
+    }
+
+    public function destroy(Request $request, int $id)
+    {
+        $transaksi = $request->user()->transaksi()->find($id);
+
+        if (!$transaksi) {
+            return response()->json([
+                'message' => 'Transaksi tidak ditemukan',
+            ], 404);
+        }
+
+        $transaksi->delete();
+
+        return response()->json([
+            'message' => 'Transaksi berhasil dihapus',
+        ], 200);
     }
 }
