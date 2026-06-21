@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use PhpParser\Node\NullableType;
 
 class TransaksiController extends Controller
 {
@@ -45,5 +46,30 @@ class TransaksiController extends Controller
         }
 
         return response()->json($transaksi,200);
+    }
+
+    public function update(Request $request, int $id){
+        $transaksi=$request->user()->transaksi()->find($id);
+
+        if(!$transaksi){
+            return response()->json([
+                'message'=> 'Transakasi tidak ditemukan',
+            ],404);
+        }
+
+        $request->validate([
+            'jenis'=>'sometimes|in:pemasukan,pengeluaran',
+            'nominal'=>'sometimes|numeric|min:1',
+            'metode'=>'sometimes|in:tunai,digital',
+            'tanggal'=>'sometimes|date',
+            'catatan'=>'nullable|string|max:100',
+        ]);
+
+        $transaksi->update($request->only(['jenis','nominal','metode','tanggal','catatan']));
+
+        return response()->json([
+            'message'=>'Transaksi berhasil diperbarui',
+            'transaksi'=>$transaksi,
+        ],200);
     }
 }
