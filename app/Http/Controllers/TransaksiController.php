@@ -52,7 +52,7 @@ class TransaksiController extends Controller
         }
 
         if($request->filled('cari')){
-            $query->where('catatan','like','%',$request->cari.'%');
+            $query->where('catatan','like','%'.$request->cari.'%');
         }
 
         $transaksi=$query->get();
