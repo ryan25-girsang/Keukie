@@ -45,8 +45,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Terjadi kesalahan, coba lagi';
+        _errorMessage = e.toString();
       });
+      print(e);
     } finally {
       setState(() {
         _isLoading = false;

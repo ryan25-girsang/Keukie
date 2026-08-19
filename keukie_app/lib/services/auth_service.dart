@@ -24,7 +24,12 @@ class AuthService {
       }),
     );
 
-    return jsonDecode(response.body);
+    final data = jsonDecode(response.body);
+
+    print("STATUS: ${response.statusCode}");
+    print("BODY: ${response.body}");
+
+    return {'statusCode': response.statusCode, ...data};
   }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
